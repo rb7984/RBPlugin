@@ -1,6 +1,7 @@
 #import os
 #import Rhino as rc
 #import Rhino.Display as rd
+from myLibs import RBfetch as RBf
 import rhinoscriptsyntax as rs
 import Rhino.DocObjects as rdo
 import Rhino.Geometry as rg
@@ -10,6 +11,7 @@ import math
 __commandname__ = "RBDraw"
 
 def rotate(l, n):
+    
     return l[n:] + l[:n]
 
 def SetUpCamera(ocs, bB, i):
