@@ -66,6 +66,14 @@ def RetrieveOCS(rObj):
 
     return v
 
+def PlotInfo(li):
+
+    for k in li:
+        _ = rs.AddText(str(li[k]), rg.Point3d(0,0,0), 20)
+        rs.ObjectLayer(_, 'Drawings')
+
+    return 0
+
 def Draw():
     #Get the object
     rObj = rs.GetObject('Select object to draw')
@@ -80,12 +88,17 @@ def Draw():
 
         rs.LayerVisible('Drawings', False)
 
+        li = RBf.Fetch(rObj)
+        
         #Set Camera Method
         for i in range(4): #range to be controlled
             #range(3) = 3 ortho views
             #range(4) = 4 the 4th should be isometric view
             SetUpCamera(ocs, bB, i)
         
+        #Plot the info of the Obj
+        PlotInfo(li)
+
         #Delete the layer Make2d
         rs.DeleteLayer('Make2D')
 

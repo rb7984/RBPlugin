@@ -31,6 +31,10 @@ def Do():
         pl = rg.Polyline(pts)
         _ = sc.doc.Objects.AddPolyline(pl)
         rs.ObjectLayer(_, 'Sheet')
+        pts = [rg.Point3d(-135, -108.5,0), rg.Point3d(-135,-138.5,0)]
+        pl = rg.Polyline(pts)
+        _ = sc.doc.Objects.AddPolyline(pl)
+        rs.ObjectLayer(_, 'Sheet')
 
         rs.LayerVisible('Sheet', False)
 

@@ -29,7 +29,7 @@ def poly(rObj):
     #Check
     result = False
     #Get the UCS through a polyline
-    txt = 'UCS\'s {} point of for future representation'
+    txt = 'OCS\'s {} point of for future representation'
     pl = rs.GetPolyline(3, txt.format('first'),txt.format('second'),txt.format('last'),'nil',2, 3)
     
     if pl:        

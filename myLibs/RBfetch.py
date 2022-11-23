@@ -1,15 +1,11 @@
-import Rhino
+#import Rhino
 import rhinoscriptsyntax as rs
 
 def Fetch(rObj):
-    li = {'Name': '-', 'Material': '_', 'Count': 0}
+    li = {}
 
     keys = rs.GetUserText(rObj, None)
     for key in keys:
-        
-        
-        
-        return 0
+        li[key] = rs.GetUserText(rObj, key)
 
-    
     return li
