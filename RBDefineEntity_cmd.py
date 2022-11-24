@@ -96,7 +96,7 @@ def Bake(rObj):
     # Bisogna controllare che ci sia Archive.3dm 
     # Quando si fa il SetUp Environment
     # Capire come si fa a salvare il file dentro un file 3dm
-    
+
     path = 'C:\\Users\\riccardo\\Desktop\\'
     
     rs.SelectObject(rObj)

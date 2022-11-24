@@ -9,3 +9,8 @@ def Fetch(rObj):
         li[key] = rs.GetUserText(rObj, key)
 
     return li
+
+def CheckDr(string):
+    a = string.replace("\\","/")
+    
+    return a

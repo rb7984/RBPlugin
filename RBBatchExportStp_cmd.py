@@ -15,7 +15,7 @@ def BatchSaveAs():
     # Create Arrive directory
     parentDir = os.path.split(folderStart)[0]
     pathfolderArrive = os.path.join(parentDir, "stp")
-    folderArrive = os.mkdir(pathfolderArrive)
+    os.mkdir(pathfolderArrive)
     
     for filename in os.listdir(folderStart):
         

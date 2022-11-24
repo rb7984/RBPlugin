@@ -1,43 +1,64 @@
 import rhinoscriptsyntax as rs
 import scriptcontext as sc
 import Rhino.Geometry as rg
+import os
+from myLibs import RButil as rbu
 
 __commandname__ = "RBSetUpEnvironment"
 
+def DrawSheet():
+    #Draw a sheet of paper
+    pts = [rg.Point3d(210,148.5,0),rg.Point3d(-210,148.5,0),rg.Point3d(-210,-148.5,0),rg.Point3d(210,-148.5,0),rg.Point3d(210,148.5,0)]
+    pl = rg.Polyline(pts)
+    _ = sc.doc.Objects.AddPolyline(pl)
+    rs.ObjectLayer(_, 'Sheet')
+    pts = [rg.Point3d(200,138.5,0),rg.Point3d(-200,138.5,0),rg.Point3d(-200,-138.5,0),rg.Point3d(200,-138.5,0), rg.Point3d(200,138.5,0)]
+    pl = rg.Polyline(pts)
+    _ = sc.doc.Objects.AddPolyline(pl)
+    rs.ObjectLayer(_, 'Sheet')
+    pts = [rg.Point3d(200, -108.5,0), rg.Point3d(-200,-108.5,0),rg.Point3d(-200,-138.5,0),rg.Point3d(200,-138.5,0),rg.Point3d(200, -108.5,0)]
+    pl = rg.Polyline(pts)
+    _ = sc.doc.Objects.AddPolyline(pl)
+    rs.ObjectLayer(_, 'Sheet')
+    pts = [rg.Point3d(-135, -108.5,0), rg.Point3d(-135,-138.5,0)]
+    pl = rg.Polyline(pts)
+    _ = sc.doc.Objects.AddPolyline(pl)
+    rs.ObjectLayer(_, 'Sheet')
+
+    rs.LayerVisible('Sheet', False)
+
 def Do():
     if not rs.LayerId('RBP'):
-        #Create Layers
-        rbp =rs.AddLayer("RBP")
-        tD=rs.AddLayer("TextDots")
-        dr = rs.AddLayer("Drawings")
-        cartiglio = rs.AddLayer("Sheet")
-        #Parent
-        rs.ParentLayer(tD, rbp)
-        rs.ParentLayer(dr, rbp)
-        rs.ParentLayer(cartiglio, dr)
-        #Visibility
-        rs.LayerVisible('TextDots', False)
+        # Create my Environment
+        tmpFolderStart = rs.StringBox("Directory path, please")
+        
+        if tmpFolderStart:
+            folderStart = rbu.CheckDr(tmpFolderStart)
+    
+            # Create Arrive directory
+            #parentDir = os.path.split(folderStart)[0]
+            pathfolderArrive = os.path.join(folderStart, "Archive")
+            os.mkdir(pathfolderArrive)
+            rs.SetDocumentData('DocumentData', 'ArchivePath', pathfolderArrive)
 
-        #Draw a sheet of paper
-        pts = [rg.Point3d(210,148.5,0),rg.Point3d(-210,148.5,0),rg.Point3d(-210,-148.5,0),rg.Point3d(210,-148.5,0),rg.Point3d(210,148.5,0)]
-        pl = rg.Polyline(pts)
-        _ = sc.doc.Objects.AddPolyline(pl)
-        rs.ObjectLayer(_, 'Sheet')
-        pts = [rg.Point3d(200,138.5,0),rg.Point3d(-200,138.5,0),rg.Point3d(-200,-138.5,0),rg.Point3d(200,-138.5,0), rg.Point3d(200,138.5,0)]
-        pl = rg.Polyline(pts)
-        _ = sc.doc.Objects.AddPolyline(pl)
-        rs.ObjectLayer(_, 'Sheet')
-        pts = [rg.Point3d(200, -108.5,0), rg.Point3d(-200,-108.5,0),rg.Point3d(-200,-138.5,0),rg.Point3d(200,-138.5,0),rg.Point3d(200, -108.5,0)]
-        pl = rg.Polyline(pts)
-        _ = sc.doc.Objects.AddPolyline(pl)
-        rs.ObjectLayer(_, 'Sheet')
-        pts = [rg.Point3d(-135, -108.5,0), rg.Point3d(-135,-138.5,0)]
-        pl = rg.Polyline(pts)
-        _ = sc.doc.Objects.AddPolyline(pl)
-        rs.ObjectLayer(_, 'Sheet')
+            #Create Layers
+            rbp =rs.AddLayer("RBP")
+            tD=rs.AddLayer("TextDots")
+            dr = rs.AddLayer("Drawings")
+            cartiglio = rs.AddLayer("Sheet")
+            #Parent
+            rs.ParentLayer(tD, rbp)
+            rs.ParentLayer(dr, rbp)
+            rs.ParentLayer(cartiglio, dr)
+            #Visibility
+            rs.LayerVisible('TextDots', False)
 
-        rs.LayerVisible('Sheet', False)
-
+            # Draw Sheet
+            DrawSheet()
+            
+        else:
+            rs.MessageBox('Set Up incomplete, please start over')
+        
     else:
         rs.MessageBox('Set up already done')
 

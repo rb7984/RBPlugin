@@ -1,7 +1,7 @@
 #import os
 #import Rhino as rc
 #import Rhino.Display as rd
-from myLibs import RBfetch as RBf
+from myLibs import RButil as rbu
 import rhinoscriptsyntax as rs
 import Rhino.DocObjects as rdo
 import Rhino.Geometry as rg
@@ -90,7 +90,7 @@ def Draw():
 
         rs.LayerVisible('Drawings', False)
 
-        li = RBf.Fetch(rObj)
+        li = rbu.Fetch(rObj)
         
         #Set Camera Method
         for i in range(4): #range to be controlled
