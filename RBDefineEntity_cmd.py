@@ -1,5 +1,5 @@
 import rhinoscriptsyntax as rs
-import scriptcontext as sc
+import os
 import Rhino.Geometry as rg
  
 __commandname__ = "RBDefineEntity"
@@ -88,8 +88,28 @@ def Do():
             TexDot(rObj)
             if not poly(rObj):
                 rs.SetUserText(rObj, 'z_dim', '0')
+        
+        return rObj
+
+def Bake(rObj):
+    # Bisogna mettere l'archivio nella cartella di arrivo
+    # Bisogna controllare che ci sia Archive.3dm 
+    # Quando si fa il SetUp Environment
+    # Capire come si fa a salvare il file dentro un file 3dm
+    
+    path = 'C:\\Users\\riccardo\\Desktop\\'
+    
+    rs.SelectObject(rObj)
+    newFileName = 'Archive' + '.3dm'        
+    filePath = os.path.join(path, newFileName)
+    
+    rs.Command("-Export " + filePath + " " + "Enter ")
+    
+    return 0
 
 def RunCommand( is_interactive ):
-    Do()
+    rObj = Do()
+
+    Bake(rObj)
        
     return 0
