@@ -67,10 +67,12 @@ def RetrieveOCS(rObj):
     return v
 
 def PlotInfo(li):
-
+    pos = [rg.Point3d(-180,-128.5,0), rg.Point3d(-100,-128.5,0)]
+    i = 0
     for k in li:
-        _ = rs.AddText(str(li[k]), rg.Point3d(0,0,0), 20)
+        _ = rs.AddText(str(li[k]), pos[i], 5)
         rs.ObjectLayer(_, 'Drawings')
+        i += 1
 
     return 0
 
