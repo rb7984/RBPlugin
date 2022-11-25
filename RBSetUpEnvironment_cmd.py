@@ -59,11 +59,14 @@ def Do():
             tD=rs.AddLayer("TextDots")
             dr = rs.AddLayer("Drawings")
             cartiglio = rs.AddLayer("Sheet")
+            trash = rs.AddLayer("Trash")
 
             # Parent
             rs.ParentLayer(tD, rbp)
             rs.ParentLayer(dr, rbp)
             rs.ParentLayer(cartiglio, dr)
+            rs.ParentLayer(trash, rbp)
+            
             #Visibility
             rs.LayerVisible('TextDots', False)
 

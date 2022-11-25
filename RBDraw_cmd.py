@@ -7,12 +7,24 @@ import Rhino.DocObjects as rdo
 import Rhino.Geometry as rg
 import scriptcontext as sc
 import math
- 
+import Rhino.FileIO
+import Rhino.Display
+
 __commandname__ = "RBDraw"
 
 def rotate(l, n):
     
     return l[n:] + l[:n]
+
+def WritePdf():
+    filename = rs.SaveFileName()
+    pages = sc.doc.Views.GetPageViews()
+    pdf = Rhino.FileIO.FilePdf.Create()
+    dpi = 300
+    
+    capture = Rhino.Display.ViewCaptureSettings(pages[0], dpi)
+    pdf.AddPage(capture)
+    pdf.Write(filename)
 
 def SetUpCamera(ocs, bB, i):
     #Selecting a view
