@@ -28,7 +28,6 @@ def BatchSaveAs():
         newFileName = filename[:len(filename) - 4] + '.stp'        
         filePath = os.path.join(pathfolderArrive, newFileName)
         
-        #rs.Command('-Export "{}" Default _Enter'.format(filePath), echo=True)
         rs.Command("-Export " + filePath + " " + "Enter ")
         rs.Command("-SelAll ")
         rs.Command("Delete ")

@@ -16,7 +16,7 @@ def Save():
     return 0
 
 def DrawSheet():
-    #Draw a sheet of paper
+    # Draw a sheet of paper
     pts = [rg.Point3d(210,148.5,0),rg.Point3d(-210,148.5,0),rg.Point3d(-210,-148.5,0),rg.Point3d(210,-148.5,0),rg.Point3d(210,148.5,0)]
     pl = rg.Polyline(pts)
     _ = sc.doc.Objects.AddPolyline(pl)
@@ -45,7 +45,6 @@ def Do():
             folderStart = rbu.CheckDr(tmpFolderStart)
     
             # Create Arrive directory
-            #parentDir = os.path.split(folderStart)[0]
             pathfolderArrive = os.path.join(folderStart, "Archive")
             os.mkdir(pathfolderArrive)
 
@@ -66,8 +65,8 @@ def Do():
             rs.ParentLayer(dr, rbp)
             rs.ParentLayer(cartiglio, dr)
             rs.ParentLayer(trash, rbp)
-            
-            #Visibility
+
+            # Visibility
             rs.LayerVisible('TextDots', False)
 
             # Draw Sheet
