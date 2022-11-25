@@ -6,6 +6,15 @@ from myLibs import RButil as rbu
 
 __commandname__ = "RBSetUpEnvironment"
 
+def Save():
+    filename = rs.StringBox('Name of this model', 'Model')
+    folder = rs.GetDocumentData('DocumentData', 'WorkingDirectoryPath')
+    path = os.path.abspath(folder + filename)
+    cmd = "_-SaveAs " + chr(34) + path + chr(34)
+    rs.Command(cmd, True)
+
+    return 0
+
 def DrawSheet():
     #Draw a sheet of paper
     pts = [rg.Point3d(210,148.5,0),rg.Point3d(-210,148.5,0),rg.Point3d(-210,-148.5,0),rg.Point3d(210,-148.5,0),rg.Point3d(210,148.5,0)]
@@ -39,14 +48,19 @@ def Do():
             #parentDir = os.path.split(folderStart)[0]
             pathfolderArrive = os.path.join(folderStart, "Archive")
             os.mkdir(pathfolderArrive)
+
+            # Set Document Data, Working Directory and Archive Directory
+            tmp = folderStart + '/'
+            rs.SetDocumentData('DocumentData', 'WorkingDirectoryPath', tmp)
             rs.SetDocumentData('DocumentData', 'ArchivePath', pathfolderArrive)
 
-            #Create Layers
+            # Create Layers
             rbp =rs.AddLayer("RBP")
             tD=rs.AddLayer("TextDots")
             dr = rs.AddLayer("Drawings")
             cartiglio = rs.AddLayer("Sheet")
-            #Parent
+
+            # Parent
             rs.ParentLayer(tD, rbp)
             rs.ParentLayer(dr, rbp)
             rs.ParentLayer(cartiglio, dr)
@@ -55,6 +69,9 @@ def Do():
 
             # Draw Sheet
             DrawSheet()
+
+            # Save the file in Working Directory
+            Save()
             
         else:
             rs.MessageBox('Set Up incomplete, please start over')

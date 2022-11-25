@@ -4,6 +4,20 @@ import Rhino.Geometry as rg
  
 __commandname__ = "RBDefineEntity"
 
+
+def CommitToArc(rObj):
+    pathfolderArrive = rs.GetDocumentData('DocumentData', 'ArchivePath')
+
+    fileName = rs.GetUserText(rObj, 'Name') + '.3dm'
+
+    rs.SelectObject(rObj)
+     
+    filePath = os.path.join(pathfolderArrive, fileName)
+
+    rs.Command("-Export " + filePath + " " + "Enter ")
+
+    return 0
+
 def CheckUserString(rObj):
     bool = False
     a = rs.GetUserText(rObj, None)
@@ -76,8 +90,8 @@ def Do():
                     i += a - 6
                     k += 1
                 else:
-                    #Yes =6
-                    #No = 7            
+                    # Yes = 6
+                    # No = 7            
                     key = rs.StringBox('Key')
                     value =rs.StringBox('Value')
                     rs.SetUserText(rObj, key, value)
@@ -85,31 +99,19 @@ def Do():
                     a = rs.MessageBox('Would you like to add a field?', 4, 'Define Entity')
                     i += a - 6
                     k += 1
+
             TexDot(rObj)
             if not poly(rObj):
                 rs.SetUserText(rObj, 'z_dim', '0')
+            
+            #Commit the object in the Archive folder
+            b = rs.MessageBox('Would you like to Archive the entity?', 4, 'Archive')
+            if b == 6:
+                CommitToArc(rObj)
         
         return rObj
 
-def Bake(rObj):
-    # Bisogna mettere l'archivio nella cartella di arrivo
-    # Bisogna controllare che ci sia Archive.3dm 
-    # Quando si fa il SetUp Environment
-    # Capire come si fa a salvare il file dentro un file 3dm
-
-    path = 'C:\\Users\\riccardo\\Desktop\\'
-    
-    rs.SelectObject(rObj)
-    newFileName = 'Archive' + '.3dm'        
-    filePath = os.path.join(path, newFileName)
-    
-    rs.Command("-Export " + filePath + " " + "Enter ")
-    
-    return 0
-
 def RunCommand( is_interactive ):
     rObj = Do()
-
-    Bake(rObj)
-       
+  
     return 0
