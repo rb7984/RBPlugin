@@ -60,13 +60,16 @@ def Do():
             cartiglio = rs.AddLayer("Sheet")
             trash = rs.AddLayer("Trash")
 
+            # Create Layout
+            rs.AddLayout('A3', [420,297])
+
             # Parent
             rs.ParentLayer(tD, rbp)
             rs.ParentLayer(dr, rbp)
             rs.ParentLayer(cartiglio, dr)
             rs.ParentLayer(trash, rbp)
 
-            # Visibility
+            #Visibility
             rs.LayerVisible('TextDots', False)
 
             # Draw Sheet
