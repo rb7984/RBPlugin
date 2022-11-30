@@ -34,7 +34,7 @@ def Layout():
     detail_obj = rs.coercerhinoobject(detail_id)
     # Get the viewport of the detail
     viewport = detail_obj.Viewport
-
+    
     # Convoluted way to construct Rhino.Geometry Boundingbox from rs.BoundingBox points
     rs_bbox = rs.BoundingBox(zoom_ids[len(zoom_ids)-1])
     bbox = rg.BoundingBox(rs_bbox[0], rs_bbox[6])
