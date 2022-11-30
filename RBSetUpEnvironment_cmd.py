@@ -61,9 +61,6 @@ def Do():
             cartiglio = rs.AddLayer("Sheet")
             trash = rs.AddLayer("Trash")
 
-            # Create Layout
-            rs.AddLayout('A3', [420,297])
-
             # Parent
             rs.ParentLayer(tD, rbp)
             rs.ParentLayer(dr, rbp)
@@ -78,6 +75,10 @@ def Do():
 
             # Save the file in Working Directory
             Save()
+            
+            # Create Layout
+            rs.AddLayout('A3', [420,297])
+            rs.AddDetail('A3', (0,0), (17,11), projection=1)
             
         else:
             rs.MessageBox('Set Up incomplete, please start over')
