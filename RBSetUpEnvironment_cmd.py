@@ -18,6 +18,8 @@ def Save():
 
 
 def Layout():
+    # Not sure what could get cleanet,
+    # Not everything is useful here
     layout = rs.AddLayout('A3', [420, 297])
     detail_id = rs.AddDetail(layout, (0, 0), (420, 297), projection=1)
     zoom_ids = rs.ObjectsByLayer('Sheet')
@@ -41,10 +43,11 @@ def Layout():
 
     # Zoom the detail in on the boundingbox of the zoom_ids objects
     viewport.ZoomBoundingBox(bbox)
+
+    rs.DetailScale(detail_id,1,1)
     rs.Redraw()
     rs.Command('-Detail EnablePage ', echo=False)
     rs.UnselectAllObjects()
-
 
 def DrawSheet():
     # Draw a sheet of paper
