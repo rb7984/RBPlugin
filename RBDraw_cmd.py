@@ -18,13 +18,14 @@ def rotate(l, n):
 
 def WritePdf(name):
     folder = rs.GetDocumentData('DocumentData', 'ArchivePath')
-    filename = folder + '\\' + name
+    filename = folder + '\\' + name + '.pdf'
     
-    pages = sc.doc.Views.GetPageViews()
+    #pages = sc.doc.Views.GetPageViews()
+    
     pdf = Rhino.FileIO.FilePdf.Create()
-    dpi = 300
     
-    capture = Rhino.Display.ViewCaptureSettings(pages[0], dpi)
+    #capture = Rhino.Display.ViewCaptureSettings(pages[0], 300)
+    capture = Rhino.Display.ViewCaptureSettings(sc.doc.Views.Find("A3", False), 300)
     pdf.AddPage(capture)
     pdf.Write(filename)
 
@@ -49,8 +50,7 @@ def SetUpCamera(ocs, bB, i):
 
     rs.Command('-Make2D Enter ')
     twoD = rs.SelectedObjects(False, False)
-    rs.ObjectLayer(twoD, 'Drawings')
-
+    
     #Get the object area
     c = rdo.ObjRef(twoD[0]).Geometry().GetBoundingBox(True).Center
 
@@ -59,7 +59,7 @@ def SetUpCamera(ocs, bB, i):
     rs.MoveObjects(twoD,[-c.X,-c.Y, -c.Z])
     rs.MoveObject(twoD, [m*math.cos((math.pi/2)*(i+1))+m*math.sin((math.pi/2)*(i+1)),n*math.cos((math.pi/2)*i)+n*math.sin((math.pi/2)*i), 0])
 
-    return 0
+    rs.ObjectLayer(twoD, 'Drawings')
 
 def RetrieveOCS(rObj):
     #retrieve rObj orientation info
@@ -97,18 +97,17 @@ def Do():
     ocs = RetrieveOCS(rObj)
 
     if rObj:
-        #isolate object        
-        rs.HideObjects(rs.InvertSelectedObjects((rs.SelectObject(rObj))))
-        
-        #Get BoundingBox
-        bB= rdo.ObjRef(rObj).Brep().GetBoundingBox(True)
-
+        # Isolate object        
+        #rs.HideObjects(rs.InvertSelectedObjects((rs.SelectObject(rObj))))
         rs.LayerVisible('Drawings', False)
+
+        # Get BoundingBox
+        bB= rdo.ObjRef(rObj).Brep().GetBoundingBox(True)
 
         # li is the dictionary of the UserText of the rObj
         li = rbu.Fetch(rObj)
         
-        #Set Camera Method
+        # Set Camera Method
         for i in range(4): #range to be controlled
             #range(3) = 3 ortho views
             #range(4) = 4 the 4th should be isometric view
@@ -120,8 +119,14 @@ def Do():
         #Delete the layer Make2d
         rs.DeleteLayer('Make2D')
 
+        rs.LayerVisible('Drawings', True)
+        rs.LayerVisible('Sheet', True)
+
         # Write the pdf file
         WritePdf(li['Name'])
+
+        #rs.LayerVisible('Drawings', False)
+        #rs.LayerVisible('Sheet', False)
 
 def RunCommand( is_interactive ):
     Do()
