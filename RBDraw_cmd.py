@@ -16,8 +16,10 @@ def rotate(l, n):
     
     return l[n:] + l[:n]
 
-def WritePdf():
-    filename = rs.SaveFileName()
+def WritePdf(name):
+    folder = rs.GetDocumentData('DocumentData', 'ArchivePath')
+    filename = folder + '\\' + name
+    
     pages = sc.doc.Views.GetPageViews()
     pdf = Rhino.FileIO.FilePdf.Create()
     dpi = 300
@@ -29,6 +31,7 @@ def WritePdf():
 def SetUpCamera(ocs, bB, i):
     #Selecting a view
     a = rs.ViewNames(True, 0)
+
     #Setting the views
     cTar = bB.Center
     if i<3:
@@ -88,7 +91,7 @@ def PlotInfo(li):
 
     return 0
 
-def Draw():
+def Do():
     #Get the object
     rObj = rs.GetObject('Select object to draw')
     ocs = RetrieveOCS(rObj)
@@ -102,6 +105,7 @@ def Draw():
 
         rs.LayerVisible('Drawings', False)
 
+        # li is the dictionary of the UserText of the rObj
         li = rbu.Fetch(rObj)
         
         #Set Camera Method
@@ -116,7 +120,10 @@ def Draw():
         #Delete the layer Make2d
         rs.DeleteLayer('Make2D')
 
+        # Write the pdf file
+        WritePdf(li['Name'])
+
 def RunCommand( is_interactive ):
-    Draw()
+    Do()
     
     return 0
