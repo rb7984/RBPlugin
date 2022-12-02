@@ -1,7 +1,7 @@
 import rhinoscriptsyntax as rs
 import os
 import Rhino.Geometry as rg
- 
+
 __commandname__ = "RBDefineEntity"
 
 
@@ -11,7 +11,7 @@ def CommitToArc(rObj):
     fileName = rs.GetUserText(rObj, 'Name') + '.3dm'
 
     rs.SelectObject(rObj)
-     
+    
     filePath = os.path.join(pathfolderArrive, fileName)
 
     rs.Command("-Export " + filePath + " " + "Enter ")
@@ -113,5 +113,5 @@ def Do():
 
 def RunCommand( is_interactive ):
     rObj = Do()
-  
+    
     return 0
