@@ -14,3 +14,7 @@ def CheckDr(string):
     a = string.replace("\\","/")
     
     return a
+
+def rotate(l, n):
+    
+    return l[n:] + l[:n]
