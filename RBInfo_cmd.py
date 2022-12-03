@@ -14,7 +14,7 @@ def Do():
     dialog.Title = "RBPlugin Info"
     dialog.ClientSize = Size(500, 500)
     dialog.Padding = Padding(5)
-    dialog.Resizable = False
+    dialog.Resizable = True
 
     image_view = ImageView()
     dir = os.path.dirname(os.path.abspath(__file__))
