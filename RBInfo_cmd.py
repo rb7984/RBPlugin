@@ -1,29 +1,26 @@
 import os
-import clr
-clr.AddReference("Eto")
-clr.AddReference("Rhino.UI")
-
-from Rhino.UI import *
-from Eto.Forms import *
-from Eto.Drawing import *
-
+# import clr
+# clr.AddReference("Eto")
+import Rhino.UI as rui
+import Eto.Forms as ef
+import Eto.Drawing as ed
 __commandname__ = "RBInfo"
 
-def Do():
-    dialog = Dialog()
+def Do():    
+    dialog = ef.Dialog()
     dialog.Title = "RBPlugin Info"
-    dialog.ClientSize = Size(500, 500)
-    dialog.Padding = Padding(5)
+    dialog.ClientSize = ed.Size(500, 500)
+    dialog.Padding = ed.Padding(5)
     dialog.Resizable = True
 
-    image_view = ImageView()
+    image_view = ef.ImageView()
     dir = os.path.dirname(os.path.abspath(__file__))
     path = os.path.join(dir, 'img/00.png')
-    image_view.Image = Bitmap(path)
+    image_view.Image = ed.Bitmap(path)
 
     dialog.Content = image_view
 
-    dialog.ShowModal(RhinoEtoApp.MainWindow)
+    dialog.ShowModal(rui.RhinoEtoApp.MainWindow)
 
 def RunCommand( is_interactive ):
     Do()
