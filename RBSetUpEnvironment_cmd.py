@@ -1,6 +1,5 @@
 from myLibs import RButil as rbu
 import os
-
 import rhinoscriptsyntax as rs
 import scriptcontext as sc
 import Rhino.Geometry as rg
@@ -54,14 +53,19 @@ def Do():
         if tmpFolderStart:
             folderStart = rbu.CheckDr(tmpFolderStart)
 
-            # Create Arrive directory
-            pathfolderArrive = os.path.join(folderStart, "Archive")
-            os.mkdir(pathfolderArrive)
+            # Create Archive directory
+            pathfolderArchive = os.path.join(folderStart, "Archive")
+            os.mkdir(pathfolderArchive)
 
-            # Set Document Data, Working Directory and Archive Directory
+            # Create a plot directory inside Archive
+            pathFolderPlot = os.path.join(pathfolderArchive, 'Plot')
+            os.mkdir(pathFolderPlot)
+
+            # Set Document Data, Working-Archive-Plot Directory
             tmp = folderStart + '/'
             rs.SetDocumentData('DocumentData', 'WorkingDirectoryPath', tmp)
-            rs.SetDocumentData('DocumentData', 'ArchivePath', pathfolderArrive)
+            rs.SetDocumentData('DocumentData', 'ArchivePath', pathfolderArchive)
+            rs.SetDocumentData('DocumentData', 'PlotPath', pathFolderPlot)
 
             # Create Layers
             rbp = rs.AddLayer("RBP")

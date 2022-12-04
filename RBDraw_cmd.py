@@ -1,6 +1,3 @@
-#import os
-#import Rhino as rc
-#import Rhino.Display as rd
 from myLibs import RButil as rbu
 import rhinoscriptsyntax as rs
 import Rhino.DocObjects as rdo
@@ -13,7 +10,7 @@ import Rhino.Display
 __commandname__ = "RBDraw"
 
 def WritePdf(name):
-    folder = rs.GetDocumentData('DocumentData', 'ArchivePath')
+    folder = rs.GetDocumentData('DocumentData', 'PlotPath')
 
     filename = folder + '\\' + name + '.pdf'
     
@@ -25,7 +22,7 @@ def WritePdf(name):
     pdf.Write(filename)
 
 def WriteDwg(name):
-    folder = rs.GetDocumentData('DocumentData', 'ArchivePath')
+    folder = rs.GetDocumentData('DocumentData', 'PlotPath')
 
     filename = folder + '\\' + name + '.dwg'
     
@@ -34,8 +31,6 @@ def WriteDwg(name):
     rs.SelectObjects(rObjs)
 
     rs.Command('-Export ' + filename + ' ' + '-Enter ')
-
-    return 0
 
 def SetUpCamera(ocs, bB, i):
     #Selecting a view
