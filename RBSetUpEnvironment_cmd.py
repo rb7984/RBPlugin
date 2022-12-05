@@ -66,6 +66,7 @@ def Do():
             rs.SetDocumentData('DocumentData', 'WorkingDirectoryPath', tmp)
             rs.SetDocumentData('DocumentData', 'ArchivePath', pathfolderArchive)
             rs.SetDocumentData('DocumentData', 'PlotPath', pathFolderPlot)
+            rs.SetDocumentData('Database', '-1', '000')
 
             # Create Layers
             rbp = rs.AddLayer("RBP")
