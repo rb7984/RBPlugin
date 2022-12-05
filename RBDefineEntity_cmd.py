@@ -56,9 +56,7 @@ def poly(rObj):
 
         #Store in User Text        
         rs.SetUserText(rObj, 'z_dim', plList[:len(plList)-1])
-        #Store the polyline
-        #_ = sc.doc.Objects.AddPolyline(pl)
-
+        
         result = True
     
     return result
