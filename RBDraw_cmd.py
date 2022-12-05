@@ -1,6 +1,3 @@
-#import os
-#import Rhino as rc
-#import Rhino.Display as rd
 from myLibs import RButil as rbu
 import rhinoscriptsyntax as rs
 import Rhino.DocObjects as rdo
@@ -12,21 +9,28 @@ import Rhino.Display
 
 __commandname__ = "RBDraw"
 
-def rotate(l, n):
-    
-    return l[n:] + l[:n]
-
 def WritePdf(name):
-    folder = rs.GetDocumentData('DocumentData', 'ArchivePath')
-    filename = folder + '\\' + name
+    folder = rs.GetDocumentData('DocumentData', 'PlotPath')
+
+    filename = folder + '\\' + name + '.pdf'
     
-    pages = sc.doc.Views.GetPageViews()
     pdf = Rhino.FileIO.FilePdf.Create()
-    dpi = 300
     
-    capture = Rhino.Display.ViewCaptureSettings(pages[0], dpi)
+    capture = Rhino.Display.ViewCaptureSettings(sc.doc.Views.Find("A3", False), 300)
+    
     pdf.AddPage(capture)
     pdf.Write(filename)
+
+def WriteDwg(name):
+    folder = rs.GetDocumentData('DocumentData', 'PlotPath')
+
+    filename = folder + '\\' + name + '.dwg'
+    
+    rObjs = sc.doc.Objects.FindByLayer('Drawings')
+
+    rs.SelectObjects(rObjs)
+
+    rs.Command('-Export ' + filename + ' ' + '-Enter ')
 
 def SetUpCamera(ocs, bB, i):
     #Selecting a view
@@ -35,7 +39,7 @@ def SetUpCamera(ocs, bB, i):
     #Setting the views
     cTar = bB.Center
     if i<3:
-        cLoc = cTar + rotate(ocs, 1)[i]
+        cLoc = cTar + rbu.rotate(ocs, 1)[i]
     else:
         cLoc = cTar + ocs[0] + ocs[1] + ocs[2]
     
@@ -49,8 +53,7 @@ def SetUpCamera(ocs, bB, i):
 
     rs.Command('-Make2D Enter ')
     twoD = rs.SelectedObjects(False, False)
-    rs.ObjectLayer(twoD, 'Drawings')
-
+    
     #Get the object area
     c = rdo.ObjRef(twoD[0]).Geometry().GetBoundingBox(True).Center
 
@@ -59,10 +62,10 @@ def SetUpCamera(ocs, bB, i):
     rs.MoveObjects(twoD,[-c.X,-c.Y, -c.Z])
     rs.MoveObject(twoD, [m*math.cos((math.pi/2)*(i+1))+m*math.sin((math.pi/2)*(i+1)),n*math.cos((math.pi/2)*i)+n*math.sin((math.pi/2)*i), 0])
 
-    return 0
+    rs.ObjectLayer(twoD, 'Drawings')
 
 def RetrieveOCS(rObj):
-    #retrieve rObj orientation info
+    # Retrieve rObj orientation info
     pl = rs.GetUserText(rObj, 'z_dim')
     _ = str(pl).split(';')
 
@@ -82,7 +85,9 @@ def RetrieveOCS(rObj):
     return v
 
 def PlotInfo(li):
-    pos = [rg.Point3d(-180,-128.5,0), rg.Point3d(-100,-128.5,0)]
+    # Retrieve info from UserText
+    pos = [rg.Point3d(-180,-128.5,0), rg.Point3d(-100,-128.5,0), rg.Point3d(-70,-128.5,0), rg.Point3d(-50,-128.5,0), rg.Point3d(-20,-128.5,0)]
+
     i = 0
     for k in li:
         _ = rs.AddText(str(li[k]), pos[i], 5)
@@ -92,36 +97,41 @@ def PlotInfo(li):
     return 0
 
 def Do():
-    #Get the object
     rObj = rs.GetObject('Select object to draw')
     ocs = RetrieveOCS(rObj)
 
     if rObj:
-        #isolate object        
-        rs.HideObjects(rs.InvertSelectedObjects((rs.SelectObject(rObj))))
-        
-        #Get BoundingBox
-        bB= rdo.ObjRef(rObj).Brep().GetBoundingBox(True)
-
         rs.LayerVisible('Drawings', False)
+
+        # Get BoundingBox
+        bB= rdo.ObjRef(rObj).Brep().GetBoundingBox(True)
 
         # li is the dictionary of the UserText of the rObj
         li = rbu.Fetch(rObj)
         
-        #Set Camera Method
+        # Set Camera Method
         for i in range(4): #range to be controlled
             #range(3) = 3 ortho views
             #range(4) = 4 the 4th should be isometric view
             SetUpCamera(ocs, bB, i)
         
-        #Plot the info of the Obj
+        # Plot the info of the Obj
         PlotInfo(li)
 
-        #Delete the layer Make2d
+        # Delete the layer Make2d
         rs.DeleteLayer('Make2D')
 
+        rs.LayerVisible('Drawings', True)
+        rs.LayerVisible('Sheet', True)
+
         # Write the pdf file
+        # WriteFile(fileName, savings)
+        # 1 = .pdf; 2 = .pdf + .dwg
         WritePdf(li['Name'])
+        WriteDwg(li['Name'])
+
+        rs.LayerVisible('Drawings', False)
+        rs.LayerVisible('Sheet', False)
 
 def RunCommand( is_interactive ):
     Do()

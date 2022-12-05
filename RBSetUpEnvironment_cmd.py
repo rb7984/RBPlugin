@@ -1,8 +1,8 @@
+from myLibs import RButil as rbu
+import os
 import rhinoscriptsyntax as rs
 import scriptcontext as sc
 import Rhino.Geometry as rg
-import os
-from myLibs import RButil as rbu
 
 __commandname__ = "RBSetUpEnvironment"
 
@@ -16,36 +16,13 @@ def Save():
     return 0
 
 def Layout():
-    # Not sure what could get cleanet,
-    # Not everything is useful here
+    # Add layout to file
     layout = rs.AddLayout('A3', [420, 297])
     detail_id = rs.AddDetail(layout, (0, 0), (420, 297), projection=1)
-    zoom_ids = rs.ObjectsByLayer('Sheet')
 
-    #set_detail_top_zoomed(detail_id, zoom_ids)
-
-    # Ensure topview projection through scripted commands
-    rs.UnselectAllObjects()
-    rs.SelectObject(detail_id)
-    rs.Command('-Detail Enable ', echo=False)
-    rs.UnselectAllObjects()
-
-    # Get Rhino Object of detail
-    detail_obj = rs.coercerhinoobject(detail_id)
-    # Get the viewport of the detail
-    viewport = detail_obj.Viewport
-    
-    # Convoluted way to construct Rhino.Geometry Boundingbox from rs.BoundingBox points
-    rs_bbox = rs.BoundingBox(zoom_ids[len(zoom_ids)-1])
-    bbox = rg.BoundingBox(rs_bbox[0], rs_bbox[6])
-
-    # Zoom the detail in on the boundingbox of the zoom_ids objects
-    viewport.ZoomBoundingBox(bbox)
-
-    rs.DetailScale(detail_id,1,1)
+    rs.DetailScale(detail_id, 1, 1)
     rs.Redraw()
     rs.Command('-Detail EnablePage ', echo=False)
-    rs.UnselectAllObjects()
 
 def DrawSheet():
     # Draw a sheet of paper
@@ -76,14 +53,19 @@ def Do():
         if tmpFolderStart:
             folderStart = rbu.CheckDr(tmpFolderStart)
 
-            # Create Arrive directory
-            pathfolderArrive = os.path.join(folderStart, "Archive")
-            os.mkdir(pathfolderArrive)
+            # Create Archive directory
+            pathfolderArchive = os.path.join(folderStart, "Archive")
+            os.mkdir(pathfolderArchive)
 
-            # Set Document Data, Working Directory and Archive Directory
+            # Create a plot directory inside Archive
+            pathFolderPlot = os.path.join(pathfolderArchive, 'Plot')
+            os.mkdir(pathFolderPlot)
+
+            # Set Document Data, Working-Archive-Plot Directory
             tmp = folderStart + '/'
             rs.SetDocumentData('DocumentData', 'WorkingDirectoryPath', tmp)
-            rs.SetDocumentData('DocumentData', 'ArchivePath', pathfolderArrive)
+            rs.SetDocumentData('DocumentData', 'ArchivePath', pathfolderArchive)
+            rs.SetDocumentData('DocumentData', 'PlotPath', pathFolderPlot)
 
             # Create Layers
             rbp = rs.AddLayer("RBP")

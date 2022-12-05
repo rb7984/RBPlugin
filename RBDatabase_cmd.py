@@ -26,9 +26,7 @@ def Database():
     folderStart = tmpFolderStart.replace("\\","/")
 
     # Create Arrive directory
-    #parentDir = os.path.split(folderStart)[0]
     pathfolderArrive = os.path.join(folderStart, "test")
-    #folderArrive = os.mkdir(pathfolderArrive)
     
     filePath = os.path.join(pathfolderArrive, 'database' + '.txt')
     filePathXlsx = os.path.join(pathfolderArrive, 'database' + '.xlsx')
