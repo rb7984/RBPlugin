@@ -40,9 +40,9 @@ def TexDot(rObj):
     return 0
 
 def poly(rObj):
-    #Check
+    # Check
     result = False
-    #Get the UCS through a polyline
+    # Get the UCS through a polyline
     txt = 'OCS\'s {} point of for future representation'
     pl = rs.GetPolyline(3, txt.format('first'),txt.format('second'),txt.format('last'),'nil',2, 3)
     
@@ -54,7 +54,7 @@ def poly(rObj):
         vk = rs.VectorCrossProduct(vi, vj)
         plList = str(vi) + ';' + str(vj) + ';' + str(vk) + ';'
 
-        #Store in User Text        
+        # Store in User Text        
         rs.SetUserText(rObj, 'z_dim', plList[:len(plList)-1])
         
         result = True
