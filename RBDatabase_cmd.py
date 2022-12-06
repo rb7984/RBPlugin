@@ -4,10 +4,8 @@ import Rhino
 
 __commandname__ = "RBDatabase"
 
-def WriteFileXlsx(xlsx, k, v):
+def WriteFileXlsx(xlsx, k):
     xlsx += k
-    xlsx += ','
-    xlsx += v
     xlsx += '\n'
     return xlsx
 
@@ -32,22 +30,26 @@ def Database():
     filePathXlsx = os.path.join(pathfolderArrive, 'database' + '.xlsx')
     
     #Get Object
+    rObjs = rs.GetObjects('Oggetti da estrarre')
+
+    txt += 'Name' + '\n'
+
     i = 0
-    for rObj in Rhino.RhinoDoc.ActiveDoc.Objects:        
-        txt += str(i) + '\n'
+    for rObj in rObjs:        
         i += 1
-        if rObj.IsNormal:
-            keys = rs.GetUserText(rObj, None)
-            for k in keys:                    
-                value = rs.GetUserText(rObj, k)
-                
-                txt = WriteFileTxt(txt, str(k), str(value))  
-                xlsx = WriteFileXlsx(xlsx, str(k), str(value))               
+
+        keys = rs.GetUserText(rObj, None)
+
+        for k in keys:                    
+            value = rs.GetUserText(rObj, k)
+            
+            #txt = WriteFileTxt(txt, str(k), str(value))  
+            xlsx = WriteFileXlsx(xlsx, str(value))               
     
     #Write to file
-    file = open(filePath, "w")
-    file.write(txt[:len(txt)-1])
-    file.close()
+    # file = open(filePath, "w")
+    # file.write(txt[:len(txt)-1])
+    # file.close()
     #Write to .xlsx
     file1 = open(filePathXlsx, "w")
     file1.write(xlsx)
