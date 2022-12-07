@@ -1,6 +1,5 @@
 import os
 import rhinoscriptsyntax as rs
-import Rhino
 
 __commandname__ = "RBDatabase"
 
