@@ -18,14 +18,11 @@ def Database():
     txt = ""
     xlsx = ""
 
-    tmpFolderStart = rs.StringBox("Directory path, please")
-    folderStart = tmpFolderStart.replace("\\","/")
-
-    # Create Arrive directory
-    pathfolderArrive = os.path.join(folderStart, "test")
+    # Get Pathin the document
+    folder = rs.GetDocumentData('DocumentData', 'WorkingDirectoryPath')
     
-    filePath = os.path.join(pathfolderArrive, 'database' + '.txt')
-    filePathXlsx = os.path.join(pathfolderArrive, 'database' + '.xlsx')
+    filePath = os.path.join(folder, 'database' + '.txt')
+    filePathXlsx = os.path.join(folder, 'database' + '.xlsx')
     
     # Get Object
     rObjs = rs.GetObjects('Oggetti da estrarre')
