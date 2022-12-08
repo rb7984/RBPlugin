@@ -16,12 +16,12 @@ def Do():
     dir = os.path.dirname(os.path.abspath(__file__))
     path = os.path.join(dir, 'img/00.png')
     image_view.Image = ed.Bitmap(path)
-
+    
     dialog.Content = image_view
-
+    
     dialog.ShowModal(rui.RhinoEtoApp.MainWindow)
 
 def RunCommand( is_interactive ):
     Do()
-
+    
     return 0

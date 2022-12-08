@@ -22,7 +22,7 @@ def BatchSaveAs():
         startingPath = os.path.join(folderStart, filename).lower()
         
         rs.Command("-Import {} _Enter ".format(startingPath))
-
+        
         rs.Command ("_SelAll ")
         
         newFileName = filename[:len(filename) - 4] + '.stp'        
@@ -34,7 +34,7 @@ def BatchSaveAs():
 
 def RunCommand( is_interactive ):    
     print("Let's export some .stp files"), __commandname__
-  
+    
     BatchSaveAs()
-  
+    
     return 0

@@ -11,10 +11,10 @@ def GetDynBlocks():
         # create a nested list to pass to the Adjourn() function
         # [[rObj, dynKey, ..., dynKey], ...]
         #    ^      ^             ^
-        # RhinoObj  dynamic Keys
-        
+        # RhinoObj  dynamic Keys        
         objAttributes = []
         keys = rs.GetUserText(rObj, None)
+        
         for k in keys:
             if str(k)== 'Dyn':
                 if rs.GetUserText(rObj, k) == 1:
@@ -27,11 +27,11 @@ def GetDynBlocks():
 def Adjourn():
     #Get all dynamic blocks
     options = GetDynBlocks()
-
+    
     if len(options)>0:
         result = rs.ListBox(options, "Pick an option")
         if result: rs.MessageBox( result + " was selected" )
-
+        
     #Get Object
     i = 0
     for rObj in Rhino.RhinoDoc.ActiveDoc.Objects:        
@@ -61,7 +61,7 @@ def AdjournManual():
 def RunCommand( is_interactive ):
     options= ['Selected', 'All']
     _ = rs.ListBox(options)
-
+    
     if _ == options[0]:
         AdjournManual()
     elif _ == options[1]:

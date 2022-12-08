@@ -16,7 +16,7 @@ def WriteFileTxt(txt, k):
 def Database():
     txt = ""
     xlsx = ""
-
+    
     # Get Pathin the document
     folder = rs.GetDocumentData('DocumentData', 'WorkingDirectoryPath')
     
@@ -25,7 +25,7 @@ def Database():
     
     # Get Object
     rObjs = rs.GetObjects('Oggetti da estrarre')
-
+    
     # Set the extraction Keys
     # AAA Cambiare il criterio di selezione del primo
     for k in rs.GetUserText(rObjs[0], None):
@@ -34,10 +34,10 @@ def Database():
     
     txt += '\n'
     xlsx += '\n'
-
+    
     for rObj in rObjs:        
         keys = rs.GetUserText(rObj, None)
-
+        
         for k in keys:                    
             value = rs.GetUserText(rObj, k)
             
@@ -56,7 +56,6 @@ def Database():
     file1.close()
 
 def RunCommand( is_interactive ):
-    
     Database()
     
     return 0

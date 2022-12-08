@@ -25,12 +25,12 @@ def Do():
     t = ef.TableLayout()
     
     table = ef.DynamicTable(3,)
-
+    
     dialog.Content = table
-
+    
     dialog.ShowModal(rui.RhinoEtoApp.MainWindow)
 
 def RunCommand(is_interactive):
     Do()
-
+    
     return 0

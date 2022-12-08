@@ -9,7 +9,7 @@ def DefineBlock():
     
     if rObj:
         brep = rdo.ObjRef.Brep(rdo.ObjRef(rObj))
-
+        
         i = int(rs.RealBox('How many parameters are gonna be dynamic?'))
         #For loop to take the input 
         for x in range(i):
@@ -24,23 +24,23 @@ def DefineBlock():
                 go.GeometryAttributeFilter=Rhino.Input.Custom.GeometryAttributeFilter.EdgeCurve
                 go.SubObjectSelect = True
                 go.AcceptNothing(False)
-
+                
                 if go.Get()!=Rhino.Input.GetResult.Object: return
                 crvObjRef = go.Object(0)
-
+                
                 guid = go.Object(0)
-
+                
                 objRef = rdo.ObjRef(guid)
                 edge = guid.Edge()
                 eI = edge.EdgeIndex
-
+                
                 rs.SetUserText(rObj, 'dP{0}'.format(x), str(eI))
                 length = rs.CurveLength(guid)            
                 rs.SetUserText(rObj, 'dP{0}Length'.format(x), length)
             elif _ == optionsList[1]:
                 #Get the Circle corresponding to the dynamic radius
                 return 0
-    
+
 def RunCommand( is_interactive ):
     DefineBlock()
     
