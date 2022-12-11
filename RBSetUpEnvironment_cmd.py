@@ -68,6 +68,12 @@ def Do():
             rs.SetDocumentData('DocumentData', 'PlotPath', pathFolderPlot)
             rs.SetDocumentData('Database', '-1', '000')
             rs.SetDocumentData('Assemblages', '-1', '-1,-2')
+            # Da eliminare
+            rs.SetDocumentData('Assemblages','0', '-1,-3')
+            rs.SetDocumentData('Assemblages','1', '-4,-3,-6')            
+            rs.SetDocumentData('Assemblages','2', '-4,-2,-6')            
+            rs.SetDocumentData('Assemblages','3', '-4,-3')            
+            rs.SetDocumentData('Assemblages','4', '-1,-3,-6')
             
             # Create Layers
             rbp = rs.AddLayer("RBP")
