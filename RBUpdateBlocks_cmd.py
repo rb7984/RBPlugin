@@ -31,7 +31,7 @@ def Adjourn():
     if len(options)>0:
         result = rs.ListBox(options, "Pick an option")
         if result: rs.MessageBox( result + " was selected" )
-        
+    
     #Get Object
     i = 0
     for rObj in Rhino.RhinoDoc.ActiveDoc.Objects:        

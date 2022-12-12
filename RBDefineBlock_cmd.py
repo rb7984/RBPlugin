@@ -37,6 +37,7 @@ def DefineBlock():
                 rs.SetUserText(rObj, 'dP{0}'.format(x), str(eI))
                 length = rs.CurveLength(guid)            
                 rs.SetUserText(rObj, 'dP{0}Length'.format(x), length)
+            
             elif _ == optionsList[1]:
                 #Get the Circle corresponding to the dynamic radius
                 return 0

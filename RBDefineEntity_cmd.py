@@ -96,7 +96,7 @@ def Do():
                     a = rs.MessageBox('Would you like to add a field?', 4, 'Define Entity')
                     i += a - 6
                     k += 1
-                    
+            
             TexDot(rObj)
             if not poly(rObj):
                 rs.SetUserText(rObj, 'z_dim', '0')

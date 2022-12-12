@@ -11,8 +11,8 @@ def ExtractAssemblages():
     
     li = []
     for assemblage in dict:
-        a = rs.GetDocumentData('Assemblages', assemblage)
-        tmp = [assemblage, a]
+        a = str(rs.GetDocumentData('Assemblages', assemblage)).split('|')
+        tmp = [assemblage, a[0], a[1]]
         li.append(tmp)
     
     return li
@@ -43,7 +43,11 @@ def Do():
     c2.DataCell = ef.TextBoxCell(1)
     t.Columns.Add(c2)
     
-    # Maybe add the count coloumn
+    c3 = ef.GridColumn()
+    c3.HeaderText = 'Count'
+    c3.Editable = False
+    c3.DataCell = ef.TextBoxCell(2)
+    t.Columns.Add(c3)
     
     dialog.Content = t
     
