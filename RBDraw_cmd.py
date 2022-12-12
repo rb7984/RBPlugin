@@ -72,7 +72,7 @@ def RetrieveOCS(rObj):
     p, v = [], []
     
     for i in _:
-        p.append(i.split(','))
+        p.append(i.split('|'))
     
     vi = rg.Vector3d(float(p[0][0]), float(p[0][1]), float(p[0][2]))
     vj = rg.Vector3d(float(p[1][0]), float(p[1][1]), float(p[1][2]))

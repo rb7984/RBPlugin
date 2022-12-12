@@ -51,7 +51,8 @@ def poly(rObj):
         vj = rg.Vector3d(pl[2].X-pl[1].X, pl[2].Y-pl[1].Y,pl[2].Z-pl[1].Z)
         vj.Unitize()
         vk = rs.VectorCrossProduct(vi, vj)
-        plList = str(vi) + ';' + str(vj) + ';' + str(vk) + ';'
+        plList = '|'.join(str(vi).split(',')) + ';' + '|'.join(str(vj).split(',')) + ';' + '|'.join(str(vk).split(',')) + ';'
+        #plList = str(vi) + ';' + str(vj) + ';' + str(vk) + ';'
         
         #Store in User Text        
         rs.SetUserText(rObj, 'z_dim', plList[:len(plList)-1])

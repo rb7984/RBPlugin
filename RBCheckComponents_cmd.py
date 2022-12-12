@@ -12,7 +12,7 @@ def ExtractAssemblages():
     li = []
     for assemblage in dict:
         a = str(rs.GetDocumentData('Assemblages', assemblage)).split('|')
-        tmp = [assemblage, a[0], a[1]]
+        tmp = [assemblage, a[0], a[1], a[2]]
         li.append(tmp)
     
     return li
@@ -48,6 +48,12 @@ def Do():
     c3.Editable = False
     c3.DataCell = ef.TextBoxCell(2)
     t.Columns.Add(c3)
+    
+    c4 = ef.GridColumn()
+    c4.HeaderText = 'Components'
+    c4.Editable = False
+    c4.DataCell = ef.TextBoxCell(3)
+    t.Columns.Add(c4)
     
     dialog.Content = t
     

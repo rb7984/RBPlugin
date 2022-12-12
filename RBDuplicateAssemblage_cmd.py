@@ -1,5 +1,6 @@
 import rhinoscriptsyntax as rs
 import Rhino
+
 __commandname__ = "RBDuplicateAssemblage"
 
 def Do():
@@ -20,16 +21,19 @@ def Do():
             id_c_L.append(id_c)
         
         # group
-        groupName = "group_c"
-        allGroupName_L = rs.GroupNames()
         
-        if groupName not in allGroupName_L:
-            rs.AddGroup(groupName)
+        groupName = str(rs.GroupCount())
+        
+        # allGroupName_L = rs.GroupNames()
+        # if groupName not in allGroupName_L:
+        #     rs.AddGroup(groupName)
+        
+        rs.AddGroup(groupName)
         
         rs.AddObjectsToGroup(id_c_L, groupName)
         
         k = rs.ObjectsByGroup(groupName)
-        rs.MoveObjects(k, (25,25,0))
+        rs.MoveObjects(k, (25, 25, 0))
         
         change = str(rs.GetDocumentData('Assemblages', name)).split('|')
         count = str(int(change[1]) + 1)

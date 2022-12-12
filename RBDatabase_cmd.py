@@ -17,7 +17,7 @@ def Database():
     txt = ""
     xlsx = ""
     
-    # Get Pathin the document
+    # Get Path in the document
     folder = rs.GetDocumentData('DocumentData', 'WorkingDirectoryPath')
     
     filePath = os.path.join(folder, 'database' + '.txt')
