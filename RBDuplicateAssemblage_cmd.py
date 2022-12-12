@@ -37,7 +37,7 @@ def Do():
         
         change = str(rs.GetDocumentData('Assemblages', name)).split('|')
         count = str(int(change[1]) + 1)
-        new = change[0] + '|' + count
+        new = change[0] + '|' + count + '|' + change[2]
         rs.SetDocumentData('Assemblages', name, new)
 
 def RunCommand( is_interactive ):
