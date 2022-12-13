@@ -23,8 +23,6 @@ def Do():
         subNames = a + '|1' + '|' + str(k)
         
         rs.SetDocumentData('Assemblages', name, subNames)
-        
-        print(subNames)
 
 def RunCommand( is_interactive ):
     Do()
