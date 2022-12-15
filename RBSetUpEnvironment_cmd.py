@@ -6,6 +6,34 @@ import Rhino.Geometry as rg
 
 __commandname__ = "RBSetUpEnvironment"
 
+def LayerBuilder():
+    # Create Layers
+    rbp = rs.AddLayer("RBP")
+    model = rs.AddLayer("Model")
+    tD = rs.AddLayer("TextDots")
+    dr = rs.AddLayer("Drawings")
+    cartiglio = rs.AddLayer("Sheet")
+    trash = rs.AddLayer("Trash")
+    
+    # Parent
+    rs.ParentLayer(tD, rbp)
+    rs.ParentLayer(model, rbp)
+    rs.ParentLayer(dr, rbp)
+    rs.ParentLayer(cartiglio, dr)
+    rs.ParentLayer(trash, rbp)
+    
+    # Visibility
+    rs.LayerVisible("TextDots", False)
+    rs.LayerVisible("Drawings", False)
+    
+    # Locked
+    rs.LayerLocked("Model", True)
+    
+    # Color
+    rs.LayerColor("Model", [0, 255, 255])
+    
+    return 0
+
 def Save():
     filename = rs.StringBox('Name of this model', 'Model')
     folder = rs.GetDocumentData('DocumentData', 'WorkingDirectoryPath')
@@ -48,7 +76,7 @@ def DrawSheet():
 def Do():
     if not rs.LayerId('RBP'):
         # Create my Environment
-        tmpFolderStart = rs.StringBox("Directory path, please")
+        tmpFolderStart = rs.StringBox("Directory path")
         
         if tmpFolderStart:
             folderStart = rbu.CheckDr(tmpFolderStart)
@@ -69,21 +97,7 @@ def Do():
             rs.SetDocumentData('Database', '-1', '000')
             rs.SetDocumentData('Assemblages', '0', '0,0|0')
             
-            # Create Layers
-            rbp = rs.AddLayer("RBP")
-            tD = rs.AddLayer("TextDots")
-            dr = rs.AddLayer("Drawings")
-            cartiglio = rs.AddLayer("Sheet")
-            trash = rs.AddLayer("Trash")
-            
-            # Parent
-            rs.ParentLayer(tD, rbp)
-            rs.ParentLayer(dr, rbp)
-            rs.ParentLayer(cartiglio, dr)
-            rs.ParentLayer(trash, rbp)
-            
-            # Visibility
-            rs.LayerVisible('TextDots', False)
+            LayerBuilder()
             
             # Draw Sheet
             DrawSheet()
