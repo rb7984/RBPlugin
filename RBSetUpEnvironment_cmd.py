@@ -95,7 +95,7 @@ def Do():
             rs.SetDocumentData('DocumentData', 'ArchivePath', pathfolderArchive)
             rs.SetDocumentData('DocumentData', 'PlotPath', pathFolderPlot)
             rs.SetDocumentData('Database', '-1', '000')
-            rs.SetDocumentData('Assemblages', '0', '0,0|0')
+            rs.SetDocumentData('Assemblages', '0', '0,0|0|0')
             
             LayerBuilder()
             

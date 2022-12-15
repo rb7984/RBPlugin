@@ -65,7 +65,7 @@ def Do():
     rObj = rs.GetObject('Select Object to define', preselect = True)
     
     if rObj:
-        #True = Obj already ha been defined
+        # True = Obj already ha been defined
         if CheckUserString(rObj):
             keys = rs.GetUserText(rObj, None)
             guid = []
@@ -75,7 +75,7 @@ def Do():
                 guid.append(_)
                 
             rs.ListBox(guid, 'This object has already some fields')
-        #False: Define Object for the first time
+        # False: Define Object for the first time
         else:
             i = 0
             k = 0
@@ -102,11 +102,14 @@ def Do():
             if not poly(rObj):
                 rs.SetUserText(rObj, 'z_dim', '0')
             
-            #Commit the object in the Archive folder
+            # Commit the object in the Archive folder
             b = rs.MessageBox('Would you like to Archive the entity?', 4, 'Archive')
             if b == 6:
                 CommitToArc(rObj)
-        
+                
+            # Commit object to the Model Layer
+            rs.ObjectLayer(rObj, 'Model')
+            
         return rObj
 
 def RunCommand( is_interactive ):

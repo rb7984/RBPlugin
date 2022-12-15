@@ -4,6 +4,9 @@ import scriptcontext as sc
 __commandname__ = "RBDefineAssemblage"
 
 def Do():
+    # Unblock Model Layer
+    rs.LayerLocked('Model', False)
+    
     rObj = rs.GetObjects('Select Object to define', preselect = True)
     
     if rObj:
@@ -20,9 +23,12 @@ def Do():
         sc.doc.Views.Redraw()
         
         a = subNames[:len(subNames)-1]
-        subNames = a + '|1' + '|' + str(k)
+        subNames = a + '|' +str(k) + '|1'
         
         rs.SetDocumentData('Assemblages', name, subNames)
+        
+        # Block Model Layer
+        rs.LayerLocked('Model', True)        
 
 def RunCommand( is_interactive ):
     Do()

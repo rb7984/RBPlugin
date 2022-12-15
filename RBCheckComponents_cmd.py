@@ -44,13 +44,13 @@ def Do():
     t.Columns.Add(c2)
     
     c3 = ef.GridColumn()
-    c3.HeaderText = 'Count'
+    c3.HeaderText = 'Components'
     c3.Editable = False
     c3.DataCell = ef.TextBoxCell(2)
     t.Columns.Add(c3)
     
     c4 = ef.GridColumn()
-    c4.HeaderText = 'Components'
+    c4.HeaderText = 'Count'
     c4.Editable = False
     c4.DataCell = ef.TextBoxCell(3)
     t.Columns.Add(c4)
