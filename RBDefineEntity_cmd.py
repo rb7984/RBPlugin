@@ -75,6 +75,7 @@ def Do():
                 guid.append(_)
                 
             rs.ListBox(guid, 'This object has already some fields')
+        
         # False: Define Object for the first time
         else:
             i = 0
@@ -87,6 +88,7 @@ def Do():
                     a = rs.MessageBox('Would you like to add a field?', 4, 'Define Entity')
                     i += a - 6
                     k += 1
+                
                 else:
                     # Yes = 6
                     # No = 7            
@@ -106,10 +108,10 @@ def Do():
             b = rs.MessageBox('Would you like to Archive the entity?', 4, 'Archive')
             if b == 6:
                 CommitToArc(rObj)
-                
+            
             # Commit object to the Model Layer
             rs.ObjectLayer(rObj, 'Model')
-            
+        
         return rObj
 
 def RunCommand( is_interactive ):

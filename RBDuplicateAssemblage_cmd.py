@@ -31,7 +31,6 @@ def Do():
         # if groupName not in allGroupName_L:
         #     rs.AddGroup(groupName)
         
-        
         rs.AddGroup(groupName)
         
         rs.AddObjectsToGroup(id_c_L, groupName)
