@@ -109,7 +109,7 @@ def Do():
                         a = rs.MessageBox('This Entity already exist', 0, 'Alert')
                 
                 elif k == 1:                    
-                    value = rs.ListBox(['Acciaio', 'Alluminio'], 'CHoose the material', 'Material')
+                    value = rs.ListBox(['Acciaio', 'Alluminio'], 'Choose the material', 'Material')
                     #value = rs.StringBox('Material')
                     
                     rs.SetUserText(rObj, 'Material', value)
