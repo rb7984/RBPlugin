@@ -4,6 +4,22 @@ import Rhino.Geometry as rg
 
 __commandname__ = "RBDefineEntity"
 
+dict = {'Acciaio': 7.8*(10**(-9)), 'Alluminio': 2.7*(10**(-9)) }
+
+def AdditionalUT(rObj):
+    # y_plot = Name|Volume|Weight
+    y_plot = '' + str(rs.GetUserText(rObj, 'Name')) + '|' + str(rs.GetUserText(rObj, 'Volume')) + '|' + str(rs.GetUserText(rObj, 'Weight'))  
+    
+    vol = rs.SurfaceVolume(rObj)[0]
+    weight = vol * float(dict[rs.GetUserText(rObj, 'Material')])
+    
+    rs.SetUserText(rObj, 'Volume', vol)
+    rs.SetUserText(rObj, 'Weight', weight)
+    
+    rs.SetUserText(rObj, 'y_plot', y_plot)
+    
+    return 0
+
 def CommitToArc(rObj):
     pathfolderArrive = rs.GetDocumentData('DocumentData', 'ArchivePath')
     
@@ -88,12 +104,17 @@ def Do():
                     names = rs.GetDocumentData('Database')
                     
                     if names.count(value) == 0:
-                        a = rs.MessageBox('Would you like to add a field?', 4, 'Define Entity')
-                        i += a - 6
                         k += 1
                     else:
                         a = rs.MessageBox('This Entity already exist', 0, 'Alert')
                 
+                if k == 1:                    
+                    value = rs.StringBox('Material')
+                    rs.SetUserText(rObj, 'Material', value)
+                    
+                    a = rs.MessageBox('Would you like to add a field?', 4, 'Define Entity')
+                    i += a - 6
+                    k += 1
                 else:
                     # Yes = 6
                     # No = 7            
@@ -104,6 +125,8 @@ def Do():
                     a = rs.MessageBox('Would you like to add a field?', 4, 'Define Entity')
                     i += a - 6
                     k += 1
+            
+            AdditionalUT(rObj)
             
             TexDot(rObj)
             if not poly(rObj):
