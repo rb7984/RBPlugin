@@ -85,9 +85,14 @@ def Do():
                     value = rs.StringBox('Name')
                     rs.SetUserText(rObj, 'Name', value)
                     
-                    a = rs.MessageBox('Would you like to add a field?', 4, 'Define Entity')
-                    i += a - 6
-                    k += 1
+                    names = rs.GetDocumentData('Database')
+                    
+                    if names.count(value) == 0:
+                        a = rs.MessageBox('Would you like to add a field?', 4, 'Define Entity')
+                        i += a - 6
+                        k += 1
+                    else:
+                        a = rs.MessageBox('This Entity already exist', 0, 'Alert')
                 
                 else:
                     # Yes = 6
@@ -104,7 +109,9 @@ def Do():
             if not poly(rObj):
                 rs.SetUserText(rObj, 'z_dim', '0')
             
-            # Commit the object in the Archive folder
+            # Commit the object in the Archive folder and database
+            name = str(len(rs.GetDocumentData('Database')))
+            rs.SetDocumentData('Database', name, str(rs.GetUserText(rObj, 'Name')))
             b = rs.MessageBox('Would you like to Archive the entity?', 4, 'Archive')
             if b == 6:
                 CommitToArc(rObj)

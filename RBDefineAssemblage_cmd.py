@@ -23,7 +23,7 @@ def Do():
         sc.doc.Views.Redraw()
         
         a = subNames[:len(subNames)-1]
-        subNames = a + '|' +str(k) + '|1'
+        subNames = a + '|' + str(k) + '|1'
         
         rs.SetDocumentData('Assemblages', name, subNames)
         
