@@ -4,7 +4,7 @@ import Rhino.Geometry as rg
 
 __commandname__ = "RBDefineEntity"
 
-dict = {'Acciaio': 7.8*(10**(-9)), 'Alluminio': 2.7*(10**(-9)) }
+dict = {'Acciaio': 7.8*(10**(-6)), 'Alluminio': 2.7*(10**(-6)) }
 
 def AdditionalUT(rObj):
     # y_plot = Name|Volume|Weight
@@ -108,13 +108,16 @@ def Do():
                     else:
                         a = rs.MessageBox('This Entity already exist', 0, 'Alert')
                 
-                if k == 1:                    
-                    value = rs.StringBox('Material')
+                elif k == 1:                    
+                    value = rs.ListBox(['Acciaio', 'Alluminio'], 'CHoose the material', 'Material')
+                    #value = rs.StringBox('Material')
+                    
                     rs.SetUserText(rObj, 'Material', value)
                     
                     a = rs.MessageBox('Would you like to add a field?', 4, 'Define Entity')
                     i += a - 6
                     k += 1
+                
                 else:
                     # Yes = 6
                     # No = 7            
