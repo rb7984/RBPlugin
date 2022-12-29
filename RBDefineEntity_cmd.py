@@ -80,6 +80,8 @@ class Group(ef.GroupBox):
 
 class MasterPanel(ef.Dialog[bool]):
     
+    rowCount = 2
+    
     # Dialog box Class initializer
     def __init__(self):
         # Initialize dialog box
@@ -130,7 +132,10 @@ class MasterPanel(ef.Dialog[bool]):
     
     # AddField Button Click Event
     def OnAddFieldButtonClick(self, sender, e):
-        self.layout.Create()
+        
+        # self.layout = ef.DynamicLayout()
+        # self.layout.Spacing = ed.Size(5, 5)
+        
         self.textbox3 = ef.TextBox(Text = None)
         self.textbox4 = ef.TextBox(Text = None)
         self.layout.AddRow(None) # spacer
