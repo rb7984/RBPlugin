@@ -2,9 +2,29 @@ import os
 import rhinoscriptsyntax as rs
 import Rhino.Geometry as rg
 
+import Eto.Forms as ef
+import Eto.Drawing as ed
+
 __commandname__ = "RBDefineEntity"
 
 dict = {'Acciaio': 7.8*(10**(-6)), 'Alluminio': 2.7*(10**(-6)) }
+
+def MasterPanel(a):
+    dialog = ef.Dialog()
+    dialog.Title = "Define Entity"
+    dialog.ClientSize = ed.Size(500, 500)
+    dialog.Padding = ed.Padding(5)
+    dialog.Resizable = True
+
+    label = ef.label('AAA')
+    textbox = ef.TextBox(Text = None)
+
+    # Create the default button
+    dialog.DefaultButton = ef.Button(Text = 'OK')
+    dialog.DefaultButton.Click += dialog.OnOKButtonClick
+
+    
+    return 0
 
 def AdditionalUT(rObj):
     # y_plot = Name|Volume|Weight
@@ -68,7 +88,6 @@ def poly(rObj):
         vj.Unitize()
         vk = rs.VectorCrossProduct(vi, vj)
         plList = '|'.join(str(vi).split(',')) + ';' + '|'.join(str(vj).split(',')) + ';' + '|'.join(str(vk).split(',')) + ';'
-        #plList = str(vi) + ';' + str(vj) + ';' + str(vk) + ';'
         
         #Store in User Text        
         rs.SetUserText(rObj, 'z_dim', plList[:len(plList)-1])
