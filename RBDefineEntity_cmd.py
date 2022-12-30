@@ -9,60 +9,83 @@ __commandname__ = "RBDefineEntity"
 
 dict = {'Acciaio': 7.8*(10**(-6)), 'Alluminio': 2.7*(10**(-6)) }
 
-# class TestButtonDialog(ef.Dialog[bool]):
+# class MasterPanel(ef.Dialog[bool]):
     
+#     rowCount = 2
+    
+#     # Dialog box Class initializer
 #     def __init__(self):
-#         self.Title = "Brewing Styles"
-#         self.Padding = ed.Padding(5)
-#         self.Resizable = False
+#         # Initialize dialog box
         
-#         layout = ef.DynamicLayout()
-#         layout.Padding = ed.Padding(5)
-#         layout.Spacing = ed.Size(5, 5)        
+#         self.Title = 'Entity Configuration'
+#         self.Width = 200
         
-#         label = ef.Label()
-#         label.Text = 'Pick your coffee brewing style:'
-#         layout.AddRow(label)
-#         layout.AddRow(None) # spacer
+#         self.Padding = ed.Padding(10)
+#         self.Resizable = True
         
-#         self.Labels = []
-#         self.Labels.append('Drip Brew')
-#         self.Labels.append('Pour Over')
-#         self.Labels.append('Cold Brew')
-#         self.Labels.append('Espresso')
-#         self.Labels.append('Ristretto')
         
-#         for text in self.Labels:
-#             button = ef.Button(Text = text)
-#             button.Tag = text
-#             button.Click += self.OnButtonClick
-#             layout.AddRow(button)
-#         layout.AddRow(None) # spacer
+#         # Create controls for the dialog
+#         self.label = ef.Label(Text = 'Name:')
+#         self.textbox = ef.TextBox(Text = None)
         
-#         layout.AddRow(self.CreateOKButton())
-#         layout.AddRow(None) # spacer
-#         self.Content = layout
-    
-#     def CreateOKButton(self):
+#         self.label2 = ef.Label(Text = 'Material: ')
+#         self.textbox2 = ef.TextBox(Text = None)
+        
+#         # Create the AddField button
+#         self.AddFieldButton = ef.Button(Text = '+')
+#         self.AddFieldButton.Click += self.OnAddFieldButtonClick
+        
+#         # Create the default button
 #         self.DefaultButton = ef.Button(Text = 'OK')
-#         self.DefaultButton.Click += self.OnOkButtonClick
-#         layout = ef.DynamicLayout()
-#         layout.Spacing = ed.Size(5, 5)
-#         layout.AddRow(None, self.DefaultButton, None)
-#         return layout
+#         self.DefaultButton.Click += self.OnOKButtonClick
         
-#     def OnButtonClick(self, sender, e):
-#         if isinstance(sender, ef.Button):
-#             print(sender.Tag)
-#             sender.Text = sender.Tag + " Picked"
-
-#     def OnOkButtonClick(self, sender, e):
-#         self.Close(True)
+#         # Create the abort button
+#         self.AbortButton = ef.Button(Text = 'Cancel')
+#         self.AbortButton.Click += self.OnCloseButtonClick
+        
+#         # Create a table layout and add all the controls
+#         self.layout = ef.DynamicLayout()
+#         self.layout.Spacing = ed.Size(5, 5)
+#         self.layout.AddRow(self.label, self.textbox)
+#         self.layout.AddRow(None) # spacer
+#         self.layout.AddRow(self.label2, self.textbox2)
+#         self.layout.AddRow(None) # spacer
+#         self.layout.AddRow(self.AddFieldButton)
+#         self.layout.AddRow(None) # spacer
+#         self.layout.AddRow(self.DefaultButton, self.AbortButton)
+        
+#         # Set the dialog content
+#         self.Content = self.layout
     
-# def test_eto_button_dialog():
-#     dialog = TestButtonDialog()
-#     rc = dialog.ShowModal(rui.RhinoEtoApp.MainWindow)
-#     print(rc)
+#     #Methods
+#     def GetName(self):
+#         return self.textbox.Text
+    
+#     def GetMaterial(self):
+#         return self.textbox2.Text
+    
+#     def OnAddFieldButtonClick(self, sender, e):
+#         self.textbox3 = ef.TextBox(Text = None)
+#         self.textbox4 = ef.TextBox(Text = None)
+#         self.layout.AddRow(None) # spacer
+#         self.layout.AddRow(self.textbox3, self.textbox4)
+#         self.Padding = ed.Padding(10)
+#         self.layout.Create()
+#         self.Content = self.layout
+    
+#     # Close button click handler
+#     def OnCloseButtonClick(self, sender, e):
+#         self.textbox.Text = ""
+#         self.Close(False)
+    
+#     # OK button click handler
+#     def OnOKButtonClick(self, sender, e):
+#         if self.textbox.Text == "":
+#             self.Close(False)
+#         else:
+#             self.Close(True)
+    
+#     ## End of Dialog Class ##
 
 class MasterPanel(ef.Dialog[bool]):
     
@@ -71,9 +94,13 @@ class MasterPanel(ef.Dialog[bool]):
     # Dialog box Class initializer
     def __init__(self):
         # Initialize dialog box
+        
         self.Title = 'Entity Configuration'
+        self.Width = 200
+        
         self.Padding = ed.Padding(10)
         self.Resizable = True
+        
         
         # Create controls for the dialog
         self.label = ef.Label(Text = 'Name:')
@@ -94,6 +121,8 @@ class MasterPanel(ef.Dialog[bool]):
         self.AbortButton = ef.Button(Text = 'Cancel')
         self.AbortButton.Click += self.OnCloseButtonClick
         
+        self.layout = ef.Grid()
+
         # Create a table layout and add all the controls
         self.layout = ef.DynamicLayout()
         self.layout.Spacing = ed.Size(5, 5)
@@ -120,7 +149,9 @@ class MasterPanel(ef.Dialog[bool]):
         self.textbox4 = ef.TextBox(Text = None)
         self.layout.AddRow(None) # spacer
         self.layout.AddRow(self.textbox3, self.textbox4)
-    
+        self.Padding = ed.Padding(10)
+        self.layout.Create()
+        self.Content = self.layout
     
     # Close button click handler
     def OnCloseButtonClick(self, sender, e):
