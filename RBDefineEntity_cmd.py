@@ -64,20 +64,6 @@ dict = {'Acciaio': 7.8*(10**(-6)), 'Alluminio': 2.7*(10**(-6)) }
 #     rc = dialog.ShowModal(rui.RhinoEtoApp.MainWindow)
 #     print(rc)
 
-class Group(ef.GroupBox):
-    
-    def __init__(self, count):
-        # self.Text = 'Group {}'.format(count)
-        # self.Padding = ed.Padding(5)
-        
-        buttonDeleteGroup = ef.Button(Text = 'Delete')
-        buttonDeleteGroup.Click += self.ButtonDeleteGroupClick
-        
-        self.Content = buttonDeleteGroup
-    
-    def ButtonDeleteGroupClick(self, sender, e):
-        self.Detach()
-
 class MasterPanel(ef.Dialog[bool]):
     
     rowCount = 2
@@ -122,25 +108,19 @@ class MasterPanel(ef.Dialog[bool]):
         # Set the dialog content
         self.Content = self.layout
     
-    # Name - TextBox1
+    #Methods
     def GetName(self):
         return self.textbox.Text
     
-    # Material - TextBox2
     def GetMaterial(self):
         return self.textbox2.Text
     
-    # AddField Button Click Event
     def OnAddFieldButtonClick(self, sender, e):
-        
-        # self.layout = ef.DynamicLayout()
-        # self.layout.Spacing = ed.Size(5, 5)
-        
         self.textbox3 = ef.TextBox(Text = None)
         self.textbox4 = ef.TextBox(Text = None)
         self.layout.AddRow(None) # spacer
         self.layout.AddRow(self.textbox3, self.textbox4)
-        self.layout.Create()
+    
     
     # Close button click handler
     def OnCloseButtonClick(self, sender, e):
