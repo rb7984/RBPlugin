@@ -89,7 +89,8 @@ dict = {'Acciaio': 7.8*(10**(-6)), 'Alluminio': 2.7*(10**(-6)) }
 
 class MasterPanel(ef.Dialog[bool]):
     
-    rowCount = 2
+    rowCount = 0
+    coloumnCount = 0
     
     # Dialog box Class initializer
     def __init__(self):
@@ -100,7 +101,6 @@ class MasterPanel(ef.Dialog[bool]):
         
         self.Padding = ed.Padding(10)
         self.Resizable = True
-        
         
         # Create controls for the dialog
         self.label = ef.Label(Text = 'Name:')
@@ -121,18 +121,26 @@ class MasterPanel(ef.Dialog[bool]):
         self.AbortButton = ef.Button(Text = 'Cancel')
         self.AbortButton.Click += self.OnCloseButtonClick
         
-        self.layout = ef.Grid()
-
         # Create a table layout and add all the controls
-        self.layout = ef.DynamicLayout()
+        self.layout = ef.TableLayout(6,6)
         self.layout.Spacing = ed.Size(5, 5)
-        self.layout.AddRow(self.label, self.textbox)
-        self.layout.AddRow(None) # spacer
-        self.layout.AddRow(self.label2, self.textbox2)
-        self.layout.AddRow(None) # spacer
-        self.layout.AddRow(self.AddFieldButton)
-        self.layout.AddRow(None) # spacer
-        self.layout.AddRow(self.DefaultButton, self.AbortButton)
+        
+        self.layout.Add(self.label, 0, 0)
+        self.coloumnCount += 1        
+        self.layout.Add(self.textbox, 1,0)
+        self.rowCount += 1   
+        self.coloumnCount -= 1
+        self.layout.Add(self.label2, 0,1)
+        self.coloumnCount += 1
+        self.layout.Add(self.textbox2, 1, 1)
+        self.rowCount += 1   
+        self.coloumnCount -= 1
+        self.layout.Add(self.AddFieldButton, 0,2)
+        self.rowCount += 1   
+        self.coloumnCount -= 1
+        self.layout.Add(self.DefaultButton, 0,3)
+        self.coloumnCount += 1
+        self.layout.Add(self.AbortButton, 1,3)
         
         # Set the dialog content
         self.Content = self.layout
@@ -147,10 +155,11 @@ class MasterPanel(ef.Dialog[bool]):
     def OnAddFieldButtonClick(self, sender, e):
         self.textbox3 = ef.TextBox(Text = None)
         self.textbox4 = ef.TextBox(Text = None)
-        self.layout.AddRow(None) # spacer
-        self.layout.AddRow(self.textbox3, self.textbox4)
+
+        self.layout.Add(self.textbox3,0,2)
+        self.layout.Add(self.textbox4,1,2)
         self.Padding = ed.Padding(10)
-        self.layout.Create()
+        # self.layout.Create()
         self.Content = self.layout
     
     # Close button click handler
