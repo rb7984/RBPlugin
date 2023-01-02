@@ -111,6 +111,10 @@ class MasterPanel(ef.Dialog[bool]):
         self.AddFieldButton = ef.Button(Text = '+')
         self.AddFieldButton.Click += self.OnAddFieldButtonClick
         
+        # Create the AddField button
+        self.DeleteFieldButton = ef.Button(Text = '-')
+        self.DeleteFieldButton.Click += self.OnDeleteFieldButtonClick
+        
         # Create the default button
         self.DefaultButton = ef.Button(Text = 'OK')
         self.DefaultButton.Click += self.OnOKButtonClick
@@ -124,17 +128,11 @@ class MasterPanel(ef.Dialog[bool]):
         self.layout.Spacing = ed.Size(5,5)
         
         self.layout.Add(self.label, 0,0)
-        
         self.layout.Add(self.textbox, 1,0)
-        
         self.layout.Add(self.label2, 0,1)
-        
         self.layout.Add(self.textbox2, 1, 1)
-        
-        self.layout.Add(self.AddFieldButton, 0,2)
-        
+        self.layout.Add(self.AddFieldButton, 0, 2)
         self.layout.Add(self.DefaultButton, 3,0)
-        
         self.layout.Add(self.AbortButton, 3,1)
         
         # Set the dialog content
@@ -151,13 +149,22 @@ class MasterPanel(ef.Dialog[bool]):
         self.textbox3 = ef.TextBox(Text = None)
         self.textbox4 = ef.TextBox(Text = None)
         
-        self.layout.Add(self.textbox3,0,self.rowCount)
-        self.layout.Add(self.textbox4,1,self.rowCount)
-        
+        self.layout.Add(self.textbox3, 0,self.rowCount)
+        self.layout.Add(self.textbox4, 1,self.rowCount)
         
         self.layout.Add(self.AddFieldButton, 0, self.rowCount+1)
+        self.layout.Add(self.DeleteFieldButton, 1, self.rowCount+1)
         
         self.rowCount +=1
+        self.Content = self.layout
+    
+    def OnDeleteFieldButtonClick(self, sender, e):
+        self.layout.Add(self.AddFieldButton,0,self.rowCount-1)
+        self.layout.Add(self.DeleteFieldButton,1,self.rowCount-1)
+        self.layout.Add(None,0,self.rowCount)
+        self.layout.Add(None,1,self.rowCount)
+        
+        self.rowCount -= 1
         self.Content = self.layout
     
     # Close button click handler
