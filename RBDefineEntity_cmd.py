@@ -127,13 +127,13 @@ class MasterPanel(ef.Dialog[bool]):
         self.layout = ef.TableLayout(20,20)
         self.layout.Spacing = ed.Size(5,5)
         
-        self.layout.Add(self.label, 0,0)
-        self.layout.Add(self.textbox, 1,0)
-        self.layout.Add(self.label2, 0,1)
+        self.layout.Add(self.label, 0, 0)
+        self.layout.Add(self.textbox, 1, 0)
+        self.layout.Add(self.label2, 0, 1)
         self.layout.Add(self.textbox2, 1, 1)
         self.layout.Add(self.AddFieldButton, 0, 2)
-        self.layout.Add(self.DefaultButton, 3,0)
-        self.layout.Add(self.AbortButton, 3,1)
+        self.layout.Add(self.DefaultButton, 3, 0)
+        self.layout.Add(self.AbortButton, 3, 1)
         
         # Set the dialog content
         self.Content = self.layout
@@ -149,8 +149,8 @@ class MasterPanel(ef.Dialog[bool]):
         self.textbox3 = ef.TextBox(Text = None)
         self.textbox4 = ef.TextBox(Text = None)
         
-        self.layout.Add(self.textbox3, 0,self.rowCount)
-        self.layout.Add(self.textbox4, 1,self.rowCount)
+        self.layout.Add(self.textbox3, 0, self.rowCount)
+        self.layout.Add(self.textbox4, 1, self.rowCount)
         
         self.layout.Add(self.AddFieldButton, 0, self.rowCount+1)
         self.layout.Add(self.DeleteFieldButton, 1, self.rowCount+1)
@@ -159,10 +159,12 @@ class MasterPanel(ef.Dialog[bool]):
         self.Content = self.layout
     
     def OnDeleteFieldButtonClick(self, sender, e):
-        self.layout.Add(self.AddFieldButton,0,self.rowCount-1)
-        self.layout.Add(self.DeleteFieldButton,1,self.rowCount-1)
-        self.layout.Add(None,0,self.rowCount)
-        self.layout.Add(None,1,self.rowCount)
+        self.layout.Add(self.AddFieldButton, 0, self.rowCount-1)
+        
+        if self.rowCount != 3:
+            self.layout.Add(self.DeleteFieldButton, 1, self.rowCount-1)
+        self.layout.Add(None, 0, self.rowCount)
+        self.layout.Add(None, 1, self.rowCount)
         
         self.rowCount -= 1
         self.Content = self.layout
@@ -190,7 +192,6 @@ def RequestRoomNumber():
     if (rc):
         final.append(dialog.GetName())
         final.append(dialog.GetMaterial())
-        
         
         return final
 
