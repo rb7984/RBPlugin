@@ -105,7 +105,9 @@ class MasterPanel(ef.Dialog[bool]):
         self.textbox = ef.TextBox(Text = None)
         
         self.label2 = ef.Label(Text = 'Material: ')
-        self.textbox2 = ef.TextBox(Text = None)
+        self.dropDown2 = ef.DropDown()
+        self.dropDown2.DataStore = ['Acciaio','Alluminio']
+        # self.textbox2 = ef.TextBox(Text = None)
         
         # Create the AddField button
         self.AddFieldButton = ef.Button(Text = '+')
@@ -123,6 +125,10 @@ class MasterPanel(ef.Dialog[bool]):
         self.AbortButton = ef.Button(Text = 'Cancel')
         self.AbortButton.Click += self.OnCloseButtonClick
         
+        # Create checkbox for Archiving the entity
+        self.checkbox = ef.CheckBox()
+        self.labelCheck = ef.Label(Text = 'Archive')
+        
         # Create a table layout and add all the controls
         self.layout = ef.TableLayout(20,20)
         self.layout.Spacing = ed.Size(5,5)
@@ -130,10 +136,12 @@ class MasterPanel(ef.Dialog[bool]):
         self.layout.Add(self.label, 0, 0)
         self.layout.Add(self.textbox, 1, 0)
         self.layout.Add(self.label2, 0, 1)
-        self.layout.Add(self.textbox2, 1, 1)
+        self.layout.Add(self.dropDown2, 1, 1)
         self.layout.Add(self.AddFieldButton, 0, 2)
-        self.layout.Add(self.DefaultButton, 3, 0)
-        self.layout.Add(self.AbortButton, 3, 1)
+        self.layout.Add(self.DefaultButton, 2, 0)
+        self.layout.Add(self.AbortButton, 2, 1)
+        self.layout.Add(self.labelCheck, 2, 2)
+        self.layout.Add(self.checkbox, 2, 3)
         
         # Set the dialog content
         self.Content = self.layout
@@ -143,7 +151,11 @@ class MasterPanel(ef.Dialog[bool]):
         return self.textbox.Text
     
     def GetMaterial(self):
-        return self.textbox2.Text
+        return self.dropDown2.SelectedValue
+        # return self.textbox2.Text
+    
+    def GetArchiveCheck(self):
+        return self.checkbox.Checked
     
     def OnAddFieldButtonClick(self, sender, e):
         self.textbox3 = ef.TextBox(Text = None)
@@ -152,17 +164,20 @@ class MasterPanel(ef.Dialog[bool]):
         self.layout.Add(self.textbox3, 0, self.rowCount)
         self.layout.Add(self.textbox4, 1, self.rowCount)
         
-        self.layout.Add(self.AddFieldButton, 0, self.rowCount+1)
-        self.layout.Add(self.DeleteFieldButton, 1, self.rowCount+1)
+        self.layout.Add(self.AddFieldButton, 0, self.rowCount + 1)
+        self.layout.Add(self.DeleteFieldButton, 1, self.rowCount + 1)
         
         self.rowCount +=1
         self.Content = self.layout
     
     def OnDeleteFieldButtonClick(self, sender, e):
-        self.layout.Add(self.AddFieldButton, 0, self.rowCount-1)
+        self.layout.Add(self.AddFieldButton, 0, self.rowCount - 1)
         
         if self.rowCount != 3:
-            self.layout.Add(self.DeleteFieldButton, 1, self.rowCount-1)
+            self.layout.Add(self.DeleteFieldButton, 1, self.rowCount - 1)
+        else:
+            self.layout.Add(None, 1, self.rowCount - 1)
+        
         self.layout.Add(None, 0, self.rowCount)
         self.layout.Add(None, 1, self.rowCount)
         
@@ -192,22 +207,21 @@ def RequestRoomNumber():
     if (rc):
         final.append(dialog.GetName())
         final.append(dialog.GetMaterial())
+        final.append(dialog.GetArchiveCheck())
         
         return final
 
-def AdditionalUT(rObj):
-    # y_plot = Name|Volume|Weight
-    y_plot = '' + str(rs.GetUserText(rObj, 'Name')) + '|' + str(rs.GetUserText(rObj, 'Volume')) + '|' + str(rs.GetUserText(rObj, 'Weight'))  
-    
+def AdditionalUT(rObj):    
     vol = rs.SurfaceVolume(rObj)[0]
     weight = vol * float(dict[rs.GetUserText(rObj, 'Material')])
     
     rs.SetUserText(rObj, 'Volume', vol)
     rs.SetUserText(rObj, 'Weight', weight)
     
-    rs.SetUserText(rObj, 'y_plot', y_plot)
+    # y_plot = Name|Volume|Weight
+    y_plot = '' + str(rs.GetUserText(rObj, 'Name')) + '|' + str(rs.GetUserText(rObj, 'Volume')) + '|' + str(rs.GetUserText(rObj, 'Weight'))  
     
-    return 0
+    rs.SetUserText(rObj, 'y_plot', y_plot)
 
 def CommitToArc(rObj):
     pathfolderArrive = rs.GetDocumentData('DocumentData', 'ArchivePath')
@@ -283,7 +297,19 @@ def Do():
         # False: Define Object for the first time
         else:
             
-            RequestRoomNumber()
+            data = RequestRoomNumber()
+            
+            rs.SetUserText(rObj, 'Name', data[0])
+            rs.SetUserText(rObj, 'Material', data[1])
+            
+            AdditionalUT(rObj)
+            
+            # TexDot(rObj)
+            if not poly(rObj):
+                rs.SetUserText(rObj, 'z_dim', '0')
+            
+            if data[2]:
+                CommitToArc(rObj)
             
             # i = 0
             # k = 0
