@@ -21,6 +21,7 @@ def RunCommand( is_interactive ):
     rs.RotateObjects(rObj, origin, -90, [0,1,0], False )
 
     rs.MoveObjects(rObj,[-origin.X,-origin.Y,-origin.Z])
-    rs.Command('-Make2D Enter ')
+    rs.SelectObjects(rObj)
+    rs.Command('-Make2D' + ' ' + 'Enter')
 
     return 0
